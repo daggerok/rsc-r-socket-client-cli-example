@@ -2,12 +2,18 @@
 This repository demonstrates how to create / get data using rsc (RSocket Client CLI) very easy and real quick
 
 ```bash
-brew reinstall making/tap/rsc
-
 mvn clean compile spring-boot:start
-rsc --route=/api/v1/customers/create-customer --data='{"name":"Maksimko"}' tcp://127.0.0.1:7070
-rsc --route=/api/v1/customers --stream tcp://127.0.0.1:7070
-rsc --route=/api/v1/customers/4 tcp://127.0.0.1:7070
+
+# brew tap making/tap
+# brew reinstall making/tap/rsc
+rsc tcp://127.0.0.1:7070 --route=/api/v1/customers/create-customer --data='{"name":"Maksimko"}'
+rsc tcp://127.0.0.1:7070 --route=/api/v1/customers --stream
+rsc tcp://127.0.0.1:7070 --route=/api/v1/customers/4
+
+rsc tcp://127.0.0.1:7070 --route=/api/v1/customers/stream --stream &
+rsc tcp://127.0.0.1:7070 --route=/api/v1/customers/fire-and-forget --data='{"name":"Max Fire"}' -fnf
+rsc tcp://127.0.0.1:7070 --route=/api/v1/customers/fire-and-forget --data='{"name":"And Forget"}' -fnf
+
 mvn spring-boot:stop
 ```
 
